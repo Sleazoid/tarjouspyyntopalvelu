@@ -1,0 +1,39 @@
+{% extends 'userena/base_userena.html' %}
+{% load i18n %}
+{% load url from future %}
+
+{% block title %}{% blocktrans with profile.user.username as username %}{{ username }}'s profile.{% endblocktrans %}{% endblock %}
+{% block content_title %}<h2>{{ profile.user.username }} {% if profile.user.get_full_name %}({{ profile.user.get_full_name }}){% endif %}</h2>{% endblock %}
+
+{% block content %}
+<div class="white-box">
+	 <ul id="box-nav">
+{% block profile_navigation_items %}
+	    <li><a href="{% url 'userena_profile_pyynnot' user.username %}"> {% trans "Katso tarjouksia" %}</a></li>
+            <li><a href="{% url 'userena_profile_detail' user.username %}">{% trans "Tarkastele profiilia" %}</a></li>
+            <li><a href="{% url 'userena_profile_edit' user.username %}">{% trans "Muokkaa tietoja" %}</a></li>
+	    <li><a href="{% url 'userena_tyopaikat' user.username %}">{% trans "Avoimet työpaikat" %}</a></li>
+		<ul>
+		<li class="first"> <a href="{% url 'userena_tyopaikat_detail' user.username %}" target="_self">Tarkastele avoimia työpaikkojasi</a>  </li>
+		
+		</ul>
+            <li><a href="{% url 'userena_password_change' user.username %}">{% trans "Vaihda salasana" %}</a></li>
+            <li><a href="{% url 'userena_email_change' user.username %}">{% trans "Vaihda email" %}</a></li>
+	    <li><a href="/accounts/signout">Kirjaudu ulos</a></li>
+          {% endblock %}
+      </ul>
+    <div id="details">
+<h2 style="text-align:center;">Työpaikkailmoitus on poistettu
+</h2>
+
+
+
+<div id="pyynnot">
+</br></br>
+<p>{% trans "Työpaikkailmoitus on nyt poistettu" %}</p>
+
+ 
+  </div>
+   </div>
+  </div>
+{% endblock %}

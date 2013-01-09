@@ -1,0 +1,35 @@
+
+{% load menu_tags cache %}
+{% load i18n cms_tags menu_tags%}
+{% load cms_tags sekizai_tags %}
+<html>
+  <head>
+      {% render_block "css" %}
+{% addtoblock "css" %}
+<link href="{{STATIC_URL}}css/style.css" rel="stylesheet" type="text/css"/>
+{%endaddtoblock%} 
+  </head>
+  <body>
+      {% cms_toolbar %}
+     
+      {% render_block "js" %}
+<div id="header">
+<div id="admin">
+<a href="/accounts/signin/" target="_blank">Kirjaudu järjestelmään</a> 
+<a href="/accounts/signup/" target="_blank">Rekisteröidy heti!</a> 
+</div></div>
+  <div id="navi">
+	
+    {% show_menu 0 100 100 100 %}
+<a href="/tarjoukset" target="_blank">Tarjouspyyntölomake</a> 
+            </div>
+<div id="content">
+ {% placeholder base_content %}
+      {% block base_content%}{% endblock %}
+
+
+
+  </body>
+</html>
+
+

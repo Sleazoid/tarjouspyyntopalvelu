@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+ <div id="details">
+	{% block profile_details %}
+     
+          	{% block profile_definition_list %}	
+     	      	
+		{% if not form%}
+		<p> Valitettavasti tällä hetkellä ei ole yhtään tarjouspyyntöä toimialallesi. </p>
+	      
+		{% else %}
+		<h2> Tarjouspyynnöt</h2>
+		<h3 style ="font-size: 18px;text-transform:none">Tässä mallina vanhentuneita tarjouspyyntöjä. Esillä vain otsikko ja selitys tarjouspyynnöstä. Tarkemmat tiedot tarjouspyynnöistä on poistettu.</h3></br></br>
+{% for html in form %}
+<div id="pyynnot" style="border-top: 1px solid #DEDEDE; ">
+</br></br>
+<tr>
+
+
+<p>Otsikko: {{ html.jaa }}</p>
+<p>Tarjouspyyntö:</p>
+<p>{{ html.juu }}</p>
+</br>
+</tr>
+</div>
+
+{% endfor %}		
+	       
+		{% endif %}
+		
+          	{% endblock %}
+       
+      	{% endblock %}
+    </div>
+{% endblock %}

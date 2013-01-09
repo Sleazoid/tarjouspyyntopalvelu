@@ -1,0 +1,29 @@
+<h1>Contacts</h1>
+
+<a href="/phonebook/contact_add/">+ Add Contact</a>
+{% if latest_contact_list %}
+    <table border=1>
+        <tr>
+          <th>Name</th>
+          <th>&nbsp;</th>    
+        </tr>
+        {% for contact in latest_contact_list %} 
+        <tr>
+          <td>
+            <a href="/phonebook/contact_edit/{{ contact.id }}/">
+			{{ contact.etunimi }}
+			{{ contact.sukunimi }}
+			
+			</a>
+          </td>
+          <td>
+            <a href="/phonebook/contact_edit/{{ contact.id }}/">edit</a>
+			<a href="/phonebook/contact_delete/{{ contact.id }}/">delete</a>
+          </td>      
+        </tr>
+        {% endfor %}    
+    </table>
+
+{% else %}
+    <p>No contacts created.</p>
+{% endif %}

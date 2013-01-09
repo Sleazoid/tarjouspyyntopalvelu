@@ -1,0 +1,17 @@
+# -*- coding: utf-8 -*-
+from django.conf.urls import patterns, include, url
+from tyopaikat import views as tyopaikat_views
+from accounts import settings as userena_settings
+urlpatterns = patterns('tyopaikat.views',
+  
+    url(r'^(?P<alue>[\.\w]+)/(?P<toimiala>[\.\w]+)/tyopaikat_selaa/$',
+	tyopaikat_views.tyopaikat_selaa,
+	name='tyopaikat_selaa'),
+
+    url(r'^tyopaikat_haku/$','tyopaikat_haku'),
+
+
+   
+   
+)
+

@@ -1,0 +1,10 @@
+{% extends 'userena/base_userena.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Sähköpostiosoitteen varmentaminen" %}{% endblock %}
+{% block content_title %}<h2>{% trans 'Vahvista uusi sähköpostiosoitteesi' %}</h2>{% endblock %}
+
+{% block content %}
+<p>{% blocktrans with viewed_user.userena_signup.email_unconfirmed as email %}Olet saanut sähköpostin osoitteeseen {{ email }}.{% endblocktrans %}</p>
+<p>{% blocktrans with viewed_user.username as username %}Vahvistaaksesi tämän sähköpostiosoitteen tunnuksellesi({{ username }}) klikkaa sähköpostin mukana tullutta linkkiä.{% endblocktrans %}</p>
+{% endblock %}

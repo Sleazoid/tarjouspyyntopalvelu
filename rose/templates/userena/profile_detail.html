@@ -1,0 +1,89 @@
+{% extends 'userena/base_userena.html' %}
+{% load i18n %}
+{% load url from future %}
+
+{% block title %}{% blocktrans with profile.user.username as username %}{{ username }}'s profile.{% endblocktrans %}{% endblock %}
+{% block content_title %}<h2>{{ profile.user.username }} {% if profile.user.get_full_name %}({{ profile.user.get_full_name }}){% endif %}</h2>{% endblock %}
+
+{% block content %}
+  <div class="white-box">
+    {% block profile_navigation %}
+      {% comment %}Dirty hack. Will use django-guardian in the future.{% endcomment %}
+      {% if user.username == profile.user.username %}
+	<h4>Olet kirjautunut tunnuksella: {{ profile.user.username }}</h4>
+        <ul id="box-nav">
+          {% block profile_navigation_items %}
+	    <li><a href="{% url 'userena_profile_pyynnot' user.username %}"> {% trans "Katso tarjouksia" %}</a></li>
+            <li><a href="{% url 'userena_profile_detail' user.username %}">{% trans "Tarkastele profiilia" %}</a></li>
+            <li><a href="{% url 'userena_profile_edit' user.username %}">{% trans "Muokkaa tietoja" %}</a></li>
+	    <li><a href="{% url 'userena_tyopaikat' user.username %}">{% trans "Avoimet työpaikat" %}</a></li>
+            <li><a href="{% url 'userena_password_change' user.username %}">{% trans "Vaihda salasana" %}</a></li>
+            <li><a href="{% url 'userena_email_change' user.username %}">{% trans "Vaihda email" %}</a></li>
+	    <li><a href="/accounts/signout">Kirjaudu ulos</a></li>
+          {% endblock %}
+        </ul>
+      {% endif %}
+    {% endblock %}
+
+    <div id="details">
+<h2 style="text-align:center;">Profiilitiedot:
+</h2>
+ {% block profile_details %}
+{% comment %}
+     
+        <img class="mugshot" src="{{ profile.get_mugshot_url }}" alt="{% trans "Your mugshot" %}" />
+{% endcomment %}
+        <dl>
+          {% block profile_definition_list %}
+            {% if profile.user.get_full_name %}
+              <dt>{% trans "Name:" %}</dt>
+              <dd>{{ profile.user.get_full_name }}</dd>
+            {% endif %}
+            {% if profile.user.email and not hide_email %}
+              <dt>{% trans "Email:" %}</dt>
+              <dd>{{ profile.user.email }}</dd>
+            {% endif %}
+            {% if profile.age %}
+              <dt>{% trans "Age" %}</dt>
+              <dd>{{ profile.age }}</dd>
+            {% endif %}
+            {% if profile.website %}
+              <dt>{% trans "Website" %}</dt>
+              <dd>{{ profile.website|urlize }}</dd>
+            {% endif %}
+            {% if profile.location %}
+              <dt>{% trans "Location" %}</dt>
+              <dd>{{ profile.location }}</dd>
+            {% endif %}
+            {% if profile.about_me %}
+              <dt>{% trans "About me" %}</dt>
+              <dd>{{ profile.about_me }}</dd>
+            {% endif %}
+	    {% if profile.puhelinnumero %}
+              <dt>{% trans "Puhelinnumero:" %}</dt>
+              <dd>{{ profile.puhelinnumero }}</dd>
+	    {% endif %}
+	    {% if profile.yrityksen_nimi %}
+              <dt>{% trans "Yrityksen nimi:" %}</dt>
+              <dd>{{ profile.yrityksen_nimi }}</dd>
+	    {% endif %}
+	    {% if profile.toimiala %}
+              <dt>{% trans "Toimiala:" %}</dt>
+              <dd>{{ profile.toimiala }}</dd>
+	    {% endif %}
+	    {% if profile.y_tunnus %}
+              <dt>{% trans "Y-Tunnus:" %}</dt>
+              <dd>{{ profile.y_tunnus }}</dd>
+            {% endif %}
+{% comment %}
+ {% for name, email in tarjousmodels.get_fields %}
+		<dd>{% name %}</dd>
+	      {% endfor %}
+{% endcomment %}
+            
+          {% endblock %}
+        </dl>
+      {% endblock %}
+    </div>
+  </div>
+{% endblock %}

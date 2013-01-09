@@ -1,0 +1,9 @@
+{% extends 'userena/base_userena.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Disabled account" %}{% endblock %}
+{% block content_title %}<h2>{% trans "Your account has been disabled" %}</h2>{% endblock %}
+{% block content %}
+<p>{% trans "Tunnusta ei ole vielä aktivoitu." %}</p>
+<p>{% trans "Sinulle on lähetetään sähköposti, jossa tiedot maksusta. Tarkasta oletko jo saanut maksutiedot sähköpostiisi. Ongelmatapauksissa ota yhteyttä sähköpostitse ylläpitoon." %}</p>
+{% endblock %} 

@@ -1,0 +1,80 @@
+{% extends 'userena/base_userena.html' %}
+{% load i18n %}
+{% load url from future %}
+{% load sekizai_tags %}
+{% block title %}{% blocktrans with profile.user.username as username %}{{ username }}'s profile.{% endblocktrans %}{% endblock %}
+{% block content_title %}<h2>{{ profile.user.username }} {% if profile.user.get_full_name %}({{ profile.user.get_full_name }}){% endif %}</h2>{% endblock %}
+
+{% block content %}
+  <div class="white-box">
+    {% block profile_navigation %}
+      {% comment %}Dirty hack. Will use django-guardian in the future.{% endcomment %}
+{% comment %}
+      {% if user.username == profile.user.username %}
+{% endcomment %}
+        <ul id="box-nav">
+          {% block profile_navigation_items %}
+	    <li><a href="{% url 'userena_profile_pyynnot' user.username %}"> {% trans "Katso tarjouksia" %}</a></li>
+            <li><a href="{% url 'userena_profile_detail' user.username %}">{% trans "Tarkastele profiilia" %}</a></li>
+            <li><a href="{% url 'userena_profile_edit' user.username %}">{% trans "Muokkaa tietoja" %}</a></li>
+            <li><a href="{% url 'userena_password_change' user.username %}">{% trans "Vaihda salasana" %}</a></li>
+            <li><a href="{% url 'userena_email_change' user.username %}">{% trans "Vaihda email" %}</a></li>
+	    <li><a href="/accounts/signout">Kirjaudu ulos</a></li>
+          {% endblock %}
+
+        </ul>
+{% comment %}
+      {% endif %}
+{% endcomment %}
+    {% endblock %}
+    <div id="details">
+	{% block profile_details %}
+     
+          	{% block profile_definition_list %}	
+     	      	
+		{% if not form%}
+		<p> Valitettavasti tällä hetkellä ei ole yhtään tarjouspyyntöä toimialallesi. </p>
+	      
+		{% else %}
+		<h3> Tarjouspyynnöt</h3>
+		
+		
+		{% for field in form %}
+		<div id="pyynnot" style="border-top: 1px solid #DEDEDE; ">
+
+		</br></br>
+		<tr>
+		<th>{{ field.label }}</th>
+		<td>{{ field.data }}</td>
+		<p style="font-size:17px;font-weight:normal;font-family:"Arial;">Nimi: 
+		{{ field.etunimi}} {{ field.sukunimi}}</p>
+		<p>Puhelinnumero: 
+		{{ field.puhelinnumero }}</p>
+		<p>Sähköposti: 
+		{{ field.email }}</p>
+		<p>Tarjoukset viimeistään: 
+		{{ field.tarjoukset_viimeistaan|date:"d.m.Y" }}</p>
+		<p>Haetaan alueelta: 
+		{{ field.alue }}</p>
+		<p>Toimiala: 
+		{{ field.toimiala }}</p>
+		<p>Otsikko: 
+		{{ field.otsikko }}</p>
+		<p>Tarjouspyyntö: </p><p style="text-transform:none">
+		{{ field.tarjouspyynto }}</p>
+		
+		</tr>
+		</br>
+		
+		</div>
+		</br>
+	        {% endfor %}
+	       
+		{% endif %}
+		
+          	{% endblock %}
+       
+      	{% endblock %}
+    </div>
+  </div>
+{% endblock %}

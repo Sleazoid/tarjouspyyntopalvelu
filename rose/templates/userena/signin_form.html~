@@ -1,0 +1,36 @@
+{% extends 'userena/base_userena.html' %}
+{% load i18n %}
+{% load url from future %}
+
+{% block title %}{% trans "Kirjaudu" %}{% endblock %}
+
+{% block content %}
+<div id="sign">
+<form action="" method="post">
+  {% csrf_token %}
+  <fieldset>
+    <legend>{% trans "Kirjaudu" %}</legend>
+    {{ form.non_field_errors }}
+    {% for field in form %}
+    {{ field.errors }}
+    {% comment %} Displaying checkboxes differently {% endcomment %}
+    {% if field.name == 'remember_me' %}{% comment %}
+    <p class="checkbox" style="">
+    <label for="id_{{ field.name }}">{{ field.label }}{{ field }} </label>
+    </p>{% endcomment %}
+    {% else %}
+    <h3>
+    {{ field.label_tag }}
+    {{ field }}
+	
+    </h3>
+    {% endif %}
+    {% endfor %}
+  </fieldset>
+</br>
+  <input type="submit" value="{% trans "Kirjaudu" %}" />
+  <h3 class="forgot-password"><a href="{% url 'userena_password_reset' %}" title="{% trans 'Ei hätää. Me autamme.' %}">{% trans "Unohditko salasanasi?" %}</a></p>
+  {% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
+</form>
+</div>
+{% endblock %}

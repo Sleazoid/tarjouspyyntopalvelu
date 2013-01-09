@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+ <div id="details">
+	{% block profile_details %}
+     
+          	{% block profile_definition_list %}	
+     	      	
+		{% if not form%}
+		<p> Valitettavasti tällä hetkellä ei ole yhtään avointa työpaikkaa valitsemallesi toimialalle ja alueelle. </p>
+	        <p><a href="/tyopaikat/tyopaikat_haku/"> Kokeile uusilla hakuehdoilla</a></p>
+		{% else %}
+		<h2> Avoimet työpaikat</h2>
+		<h3 style ="font-size: 18px;text-transform:none">Avoimet työpaikat valitsemallasi toimialalla ja alueella:</h3></br></br>
+{% for html in form %}
+<div id="pyynnot" style="border-top: 1px solid #DEDEDE; ">
+</br></br>
+<tr>
+
+
+<p>Yritys: {{ html.yritys}}</p>
+<p>Nimi: {{ html.etunimi }} {{ html.sukunimi }}</p>
+<p>Sähköposti: {{ html.email }}</p>
+<p>Toimiala: {{ html.toimiala }}</p>
+<p>Kaupunki: {{ html.alue }}</p>
+<p>Haku viimeistään: {{ html.haku_viimeistaan|date:"d.m.Y" }}</p>
+<p>Otsikko: {{ html.otsikko }}</p>
+
+<p>Kuvaus:</p>
+<p>{{ html.kuvaus }}</p>
+</br>
+</tr>
+</div>
+
+{% endfor %}		
+	       
+		{% endif %}
+		
+          	{% endblock %}
+       
+      	{% endblock %}
+    </div>
+{% endblock %}

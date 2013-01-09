@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% comment %}
+{% if latest_poll_list %}
+    <ul>
+    {% for poll in latest_poll_list %}
+        <li><a href="/tarjoukset/{{ poll.id }}/">{{ poll.question }}</a></li>
+
+    {% endfor %}
+
+    </ul>
+{% endcomment %}
+
+{% block content %}
+
+<div id="tarjous"><h1>Tarjouspyyntölomake</h1></br></br>
+<form action="/tarjoukset/" method="post">{% csrf_token %}
+
+{% for field in form %}
+        <div class="fieldWrapper">
+	<p>
+            {{ field.errors }}
+            {{ field.label_tag }} {{ field }}
+	</p>	
+        </div>
+
+    {% endfor %}
+
+    <p><input type="submit" value="Lähetä tarjouspyyntö" /></p>
+</form>
+</div>
+{% endblock %}

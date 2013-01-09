@@ -1,0 +1,124 @@
+{% load menu_tags cache %}
+{% load i18n cms_tags menu_tags%}
+{% load cms_tags sekizai_tags %}
+{% load sekizai_tags %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+      {% render_block "css" %}
+{% addtoblock "css" %}
+<link href="{{STATIC_URL}}css/style.css" rel="stylesheet" type="text/css"/>
+<link href="{{STATIC_URL}}js/css/pepper-grinder/jquery-ui-1.8.23.custom.css" rel="stylesheet" type="text/css"/>
+<link href="http://fonts.googleapis.com/css?family=Abel" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" media="all" href="{{STATIC_URL}}css/niceforms-default.css" />
+{%endaddtoblock%} 
+{% render_block "js" %}
+  </head>
+  <body>
+      {% cms_toolbar %}
+  
+      
+	{% addtoblock "js" %}
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+   <script type="text/javascript" src="{{STATIC_URL}}js/js/jquery-ui-1.8.23.custom.min.js"></script>
+   <script type="text/javascript" src="{{STATIC_URL}}js/js/jquery-ui-fi.js"></script>
+
+ <script type="text/javascript" src="{{STATIC_URL}}js/js/jquery.dropotron-1.0.js"></script>
+<script language="javascript" type="text/javascript" src="{{STATIC_URL}}js/js/niceforms.js"></script>
+<script>
+	$(function() {
+		$( "#id_tarjoukset_viimeistaan" ).datepicker();
+		$( "#id_haku_viimeistaan" ).datepicker();
+	});
+	</script>
+
+{%endaddtoblock%} 
+<div id ="wrapper">
+
+	<div id="header-wrapper">
+
+		<div id="header">
+			<div id="logo">
+			
+			</div>
+		</div>
+	
+	</div>
+	<!-- end #header -->
+	<div id="menu-wrapper">
+		<ul id="menu"><span>
+			 {% show_menu 0 100 100 100 %}
+			</span>
+			
+			<li><a href="#"><span>ketä ollaan</span></a></li>
+			<li><a href="/tarjoukset" target="_self"><span>Jätä tarjouspyyntö!</span></a> </li>
+			
+			<li><a href="/tyopaikat/tyopaikat_haku" target="_self"><span>Avoimet työpaikat</span></a> </li>
+			<li><a href="/tarjoukset/selaa"><span>Selaa tarjouspyyntöjä</span></a></li>
+			<li><span>Yrityksille</span>
+				<ul>
+					<li class="first"> <a href="/accounts/signin/" target="_self">Kirjaudu</a>  </li>
+					<li class="last"> <a href="/accounts/signup/" target="_self">Rekisteröidy</a>  </li>
+					
+					<li class="last"> <a href="#" target="_self">Miten homma toimii</a>  </li>
+				</ul>
+			</li>
+		</ul>
+
+		<script type="text/javascript">
+			$('#menu').dropotron();
+		</script>
+	</div>
+	<!-- end #menu -->
+	<div id="splash"><img src="images/pics01.jpg" width="980" height="300" alt="" /></div>
+	<div id="page">
+		<div id="content">
+			<div class="contentbg">
+				<div class="post">
+					<div class="entry">
+						 {% placeholder content %}
+      {% block content%}{% endblock %}
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		<!-- end #content -->
+		<div id="sidebar-bg">
+			<div id="sidebar">
+				<ul>
+					<li>
+						 {% placeholder sivusisalto %}
+     						 {% block sivusisalto%}{% endblock %}
+					</li>
+					<li>
+						 {% placeholder sivusisalto2 %}
+     						 {% block sivusisalto2%}{% endblock %}
+					</li>
+					<li>
+						 {% placeholder sivusisalto3 %}
+     						 {% block sivusisalto3%}{% endblock %}
+					</li>
+					
+				</ul>
+			</div>
+		</div>
+		<!-- end #sidebar -->
+		<div style="clear: both; height:55px;">&nbsp;</div>
+	</div>
+	<!-- end #page -->
+
+<div id="content">
+
+</div>
+<div id="footer">
+	<p style="text-transform:capitalize">Copyright 2012 © Tomi Tapio. All rights reserved.</p>
+</div>
+<!-- end #footer -->
+
+
+  </body>
+</html>

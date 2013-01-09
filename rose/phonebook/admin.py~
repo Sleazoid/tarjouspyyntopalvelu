@@ -1,0 +1,17 @@
+from django.contrib import admin
+
+from phonebook.models import Contact
+from phonebook.models import PhoneNo
+
+class PhoneNoInline(admin.StackedInline):
+    model = PhoneNo
+    extra = 0
+
+class ContactAdmin(admin.ModelAdmin):
+	inlines = [PhoneNoInline]
+
+
+admin.site.register(PhoneNo)
+
+
+

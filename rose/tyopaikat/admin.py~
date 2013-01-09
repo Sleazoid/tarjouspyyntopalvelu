@@ -1,0 +1,22 @@
+from tyopaikat.models import TyopaikkaModel
+from tyopaikat.models import TyopaikkaModelForm, Tyopaikkavalinta
+
+#from forms import CommentForm
+from django.contrib import admin
+#from formadmin import sites
+
+class TyopaikkaModelAdmin(admin.ModelAdmin):
+    form = TyopaikkaModelForm
+    list_display = ['otsikko', 'toimiala','etunimi','sukunimi']
+class TyopaikkavalintaModelAdmin(admin.ModelAdmin):
+    form = Tyopaikkavalinta
+    list_display = ['toimiala', 'alue']
+
+
+#class CommentFormAdmin(admin.ModelForm):
+#	nimi = 'nimi'
+#	email = 'email'
+#sites.register(CommentForm, CommentFormAdmin)
+
+admin.site.register(TyopaikkaModel,TyopaikkaModelAdmin)
+admin.site.register(Tyopaikkavalinta,TyopaikkavalintaModelAdmin)

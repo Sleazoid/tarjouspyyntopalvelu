@@ -1,0 +1,23 @@
+{% extends 'userena/base_userena.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Signup almost done!" %}{% endblock %}
+
+{% block content_title %}<h2>{% trans "Signup" %}</h2>{% endblock %}
+
+{% block content %}
+<h2>{% trans "Kiitos rekisteröitymisestä palveluun!" %}</h2>
+</br>
+{% if userena_activation_required %}
+<p>{% blocktrans %}Sinulle on lähetetty sähköpostiin aktivointi linkki.{% endblocktrans %}</p>
+{% comment %}
+<p>{% blocktrans %}Tarkistamme tietosi ja lähetämme maksutiedot
+
+ kun olet aktivoinut tunnuksesi linkin avulla. Tunnus on aktivoitava {{ userena_activation_days }} päivän kuluessa. {% endblocktrans %}</p>
+{% endcomment  %}
+<p>{% blocktrans %}Lähetämme maksutiedot sähköpostitse, kun olemme tarkistaneet tietosi.{% endblocktrans %}</p>
+{% else  %}
+<p>{% blocktrans %}Lähetämme maksutiedot sähköpostitse, kun olemme tarkistaneet tietosi.{% endblocktrans %}</p>
+{% endif %}
+</br>
+{% endblock %}

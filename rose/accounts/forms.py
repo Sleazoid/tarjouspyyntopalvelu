@@ -1,0 +1,172 @@
+# -*- coding: utf-8 -*-
+from django import forms
+from django.utils.translation import ugettext_lazy as _
+from toimialakategoriat.models import Toimiala
+from accounts.models import MyProfile
+from django.contrib.auth.models import User
+from userena.forms import SignupForm
+from django.utils.functional import lazy
+from django.forms import ModelForm
+from django.forms.widgets import CheckboxSelectMultiple  
+from django.http import HttpResponseRedirect, HttpResponse
+#from django.urlcore.resolvers import reverse
+def get_my_choices():
+    LAPPI = 'Lappi'
+    AHVENANMAA = 'Ahvenanmaa'
+    ETELAPOHJANMAA = u'Etelä-Pohjanmaa'
+    ETELASAVO = u'Etelä-Savo'
+    KAINUU = 'Kainuu'
+    KANTAHAME = u'Kanta-Häme'
+    KESKIPOHJANMAA ='Keskipohjanmaa'
+    KESKISUOMI ='Keski-Suomi'
+    KYMENLAAKSO ='Kymenlaakso'
+    PIRKANMAA ='Pirkanmaa'
+    POHJANMAA ='Pohjanmaa'
+    POHJOISKARJALA ='Pohjois-Karjala'
+    POHJOISPOHJANMAA ='Pohjois-Pohjanmaa'
+    POHJOISSAVO ='Pohjois-Savo'
+    PAIJATHAME =u'Päijät-Häme'
+    SATAKUNTA = 'Satakunta'
+    UUSIMAA ='Uusimaa'
+    VARSINAISSUOMI ='Varsinais-Suomi'
+    # you place some logic here
+    choices_list=(
+    
+	(AHVENANMAA, 'Ahvenanmaa'),
+	(ETELAPOHJANMAA, 'Etelä-pohjanmaa'),
+	(ETELASAVO, 'Etelä-Savo'),
+	(KAINUU, 'Kainuu'),
+	(KANTAHAME, 'Kanta-Häme'),
+	(KESKIPOHJANMAA, 'Keski-Pohjanmaa'),
+	(KESKISUOMI, 'Keski-Suomi'),
+	(KYMENLAAKSO, 'Kymenlaakso'),
+        (LAPPI, 'Lappi'),
+	(PIRKANMAA, 'Pirkanmaa'),
+	(POHJANMAA, 'Pohjanmaa'),
+	(POHJOISKARJALA, 'Pohjois-Karjala'),
+	(POHJOISPOHJANMAA, 'Pohjois-Pohjanmaa'),
+	(POHJOISSAVO, 'Pohjois-Savo'),
+	(PAIJATHAME, 'Päijät-Häme'),
+	(SATAKUNTA, 'Satakunta'),
+	(UUSIMAA, 'Uusimaa'),
+	(VARSINAISSUOMI, 'Varsinais-Suomi'),
+	)
+    return choices_list
+class SignupFormExtra(SignupForm):
+    """
+    A form to demonstrate how to add extra fields to the signup form, in this
+    case adding the first and last name.
+
+
+    """
+    LAPPI = 'Lappi'
+    AHVENANMAA = 'Ahvenanmaa'
+    ETELAPOHJANMAA = u'Etelä-Pohjanmaa'
+    ETELASAVO = u'Etelä-Savo'
+    KAINUU = 'Kainuu'
+    KANTAHAME = u'Kanta-Häme'
+    KESKIPOHJANMAA ='Keskipohjanmaa'
+    KESKISUOMI ='Keski-Suomi'
+    KYMENLAAKSO ='Kymenlaakso'
+    PIRKANMAA ='Pirkanmaa'
+    POHJANMAA ='Pohjanmaa'
+    POHJOISKARJALA ='Pohjois-Karjala'
+    POHJOISPOHJANMAA ='Pohjois-Pohjanmaa'
+    POHJOISSAVO ='Pohjois-Savo'
+    PAIJATHAME =u'Päijät-Häme'
+    SATAKUNTA = 'Satakunta'
+    UUSIMAA ='Uusimaa'
+    VARSINAISSUOMI ='Varsinais-Suomi'
+    CHOICES = (
+	(AHVENANMAA, 'Ahvenanmaa'),
+	(ETELAPOHJANMAA, 'Etelä-pohjanmaa'),
+	(ETELASAVO, 'Etelä-Savo'),
+	(KAINUU, 'Kainuu'),
+	(KANTAHAME, 'Kanta-Häme'),
+	(KESKIPOHJANMAA, 'Keski-Pohjanmaa'),
+	(KESKISUOMI, 'Keski-Suomi'),
+	(KYMENLAAKSO, 'Kymenlaakso'),
+        (LAPPI, 'Lappi'),
+	(PIRKANMAA, 'Pirkanmaa'),
+	(POHJANMAA, 'Pohjanmaa'),
+	(POHJOISKARJALA, 'Pohjois-Karjala'),
+	(POHJOISPOHJANMAA, 'Pohjois-Pohjanmaa'),
+	(POHJOISSAVO, 'Pohjois-Savo'),
+	(PAIJATHAME, 'Päijät-Häme'),
+	(SATAKUNTA, 'Satakunta'),
+	(UUSIMAA, 'Uusimaa'),
+	(VARSINAISSUOMI, 'Varsinais-Suomi'),
+	)
+    first_name = forms.CharField(label=_(u'First name'),
+                                 max_length=30,
+                                 required=True)
+
+    last_name = forms.CharField(label=_(u'Last name'),
+                                max_length=30,
+                                required=True)
+    puhelinnumero = forms.CharField(label=_(u'Puhelinnumero'),
+                                max_length=30,
+                                required=True)
+    yrityksen_nimi = forms.CharField(label=_(u'Yrityksen nimi'),
+                                max_length=30,
+                                required=True)
+    toimiala = forms.ModelChoiceField(queryset=Toimiala.objects.all(),label=('Toimiala'))
+    y_tunnus = forms.CharField(label=_(u'Y-tunnus'),
+                                max_length=30,
+                                required=True)
+    toimialue = forms.MultipleChoiceField(choices=get_my_choices())
+
+
+# forms.ChoiceField(choices=MY_CHOICES)
+    def __init__(self, *args, **kw):
+        """,widget=forms.CheckboxSelectMultiple(attrs={'class':'special'})
+widget=forms.CheckboxSelectMultiple(attrs={'class':'special'})
+        A bit of hackery to get the first name and last name at the top of the
+        form instead at the end.
+
+        """
+        super(SignupFormExtra, self).__init__(*args, **kw)
+        # Put the first and last name at the top
+	self.fields['toimialueet'] = forms.ChoiceField(
+            choices=get_my_choices() )
+
+
+        new_order = self.fields.keyOrder[:-6]
+        new_order.insert(0, 'first_name')
+        new_order.insert(1, 'last_name')
+	new_order.insert(2, 'puhelinnumero')
+
+        new_order.insert(3, 'yrityksen_nimi')
+	new_order.insert(4, 'y_tunnus')
+        new_order.insert(5, 'toimiala')
+	#new_order.insert(6, 'toimialue')
+        self.fields.keyOrder = new_order
+	
+    def save(self):
+        """
+        Override the save method to save the first and last name to the user
+        field.
+
+        """
+
+        # First save the parent form and get the user.
+        new_user = super(SignupFormExtra, self).save()
+	#
+       
+        new_user.first_name = self.cleaned_data['first_name']
+        new_user.last_name = self.cleaned_data['last_name']
+	new_user.save()
+	new_user = new_user.get_profile()
+        new_user.yrityksen_nimi = self.cleaned_data['yrityksen_nimi']
+        new_user.toimiala= self.cleaned_data['toimiala']
+        new_user.y_tunnus = self.cleaned_data['y_tunnus']
+	new_user.username = 'anonymous'
+	new_user.puhelinnumero = self.cleaned_data['puhelinnumero']
+	#new_user = User.objects.create_user( etunimi, sukunimi)
+        new_user.save()
+
+        # Userena expects to get the new user from this form, so return the new
+        # user.
+        return new_user
+
+

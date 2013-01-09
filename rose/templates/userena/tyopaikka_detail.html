@@ -1,0 +1,72 @@
+{% extends 'userena/base_userena.html' %}
+{% load i18n %}
+{% load url from future %}
+
+{% block title %}{% blocktrans with profile.user.username as username %}{{ username }}'s profile.{% endblocktrans %}{% endblock %}
+{% block content_title %}<h2>{{ profile.user.username }} {% if profile.user.get_full_name %}({{ profile.user.get_full_name }}){% endif %}</h2>{% endblock %}
+
+{% block content %}
+  <div class="white-box">
+    {% block profile_navigation %}
+      {% comment %}Dirty hack. Will use django-guardian in the future.{% endcomment %}
+     
+	<h4>Olet kirjautunut tunnuksella: {{ profile.user.username }}</h4>
+        <ul id="box-nav">
+          {% block profile_navigation_items %}
+	    <li><a href="{% url 'userena_profile_pyynnot' user.username %}"> {% trans "Katso tarjouksia" %}</a></li>
+            <li><a href="{% url 'userena_profile_detail' user.username %}">{% trans "Tarkastele profiilia" %}</a></li>
+            <li><a href="{% url 'userena_profile_edit' user.username %}">{% trans "Muokkaa tietoja" %}</a></li>
+	    <li><a href="{% url 'userena_tyopaikat' user.username %}">{% trans "Avoimet työpaikat" %}</a></li>
+		<ul>
+		<li class="first"> <a href="{% url 'userena_tyopaikat_detail' user.username %}" target="_self">Tarkastele avoimia työpaikkojasi</a>  </li>
+		
+		</ul>
+            <li><a href="{% url 'userena_password_change' user.username %}">{% trans "Vaihda salasana" %}</a></li>
+            <li><a href="{% url 'userena_email_change' user.username %}">{% trans "Vaihda email" %}</a></li>
+	    <li><a href="/accounts/signout">Kirjaudu ulos</a></li>
+          {% endblock %}
+        </ul>
+     
+    {% endblock %}
+
+    <div id="details">
+<h2 style="text-align:center;">Avoimet työpaikkailmoituksenne:
+</h2>
+ {% block profile_details %}
+{% if not form%}
+		<p> Yritykselläsi ei ole yhtään avointa työpaikkaa ilmoitettuna järjestelmässä </p>
+	      
+		{% else %}
+</br></br>
+<p> Tässä ilmoitetut yrityksenne avoimet työpaikat: </p>
+</br></br>
+{% for html in form %}
+<div id="pyynnot" style="border-top: 1px solid #DEDEDE; ">
+</br></br>
+<tr>
+
+
+<p>Yritys: {{ html.yritys}}</p>
+<p>Nimi: {{ html.etunimi }} {{ html.sukunimi }}</p>
+<p>Sähköposti: {{ html.email }}</p>
+<p>Toimiala: {{ html.toimiala }}</p>
+<p>Alue: {{ html.alue }}</p>
+<p>Haku viimeistään: {{ html.haku_viimeistaan|date:"d.m.Y" }}</p>
+<p>Otsikko: {{ html.otsikko }}</p>
+
+<p>Kuvaus:</p>
+<p>{{ html.kuvaus }}</p>
+</br>
+</tr>
+
+<a href="{% url 'userena_delete_tp' user.username html.idd %}" style="font-size:13pt;color:#3FA43A;">Poista ilmoitus</a>
+</br></br>
+</div>
+
+{% endfor %}
+      
+		{% endif %}
+      {% endblock %}
+    </div>
+  </div>
+{% endblock %}

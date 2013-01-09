@@ -1,0 +1,5 @@
+class CostForm(ModelForm):
+    class Meta:
+        model = Cost
+fields = ['date', 'cost']
+

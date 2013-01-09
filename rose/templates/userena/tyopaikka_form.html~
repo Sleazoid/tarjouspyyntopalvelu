@@ -1,0 +1,35 @@
+{% extends 'userena/base_userena.html' %}
+{% load i18n %}
+{% load url from future %}
+
+{% block title %}{% trans "Account setup" %}{% endblock %}
+
+{% block content_title %}<h2>{% blocktrans with profile.user.username as username %}Account &raquo; {{ username }}{% endblocktrans %}</h2>{% endblock %}
+
+{% block content %}
+
+<form action="" enctype="multipart/form-data" method="post">
+  <ul id="box-nav">
+  {% block profile_navigation_items %}
+	    <li><a href="{% url 'userena_profile_pyynnot' user.username %}"> {% trans "Katso tarjouksia" %}</a></li>
+            <li><a href="{% url 'userena_profile_detail' user.username %}">{% trans "Tarkastele profiilia" %}</a></li>
+            <li><a href="{% url 'userena_profile_edit' user.username %}">{% trans "Muokkaa tietoja" %}</a></li>
+	    <li><a href="{% url 'userena_tyopaikat' user.username %}">{% trans "Avoimet työpaikat" %}</a></li>
+		<ul>
+		<li class="first"> <a href="{% url 'userena_tyopaikat_detail' user.username %}" target="_self">Tarkastele avoimia työpaikkojasi</a>  </li>
+		
+		</ul>
+            <li><a href="{% url 'userena_password_change' user.username %}">{% trans "Vaihda salasana" %}</a></li>
+            <li><a href="{% url 'userena_email_change' user.username %}">{% trans "Vaihda email" %}</a></li>
+	    <li><a href="/accounts/signout">Kirjaudu ulos</a></li>
+          {% endblock %}
+  </ul>
+  {% csrf_token %}
+<div id="reg">
+  <fieldset>
+    <legend>{% trans "Ilmoita avoimesta työpaikasta" %}</legend>
+    {{ form.as_p }}
+  </fieldset></br>
+  <input type="submit" value="{% trans "Tallenna" %}" />
+</form></div>
+{% endblock %}

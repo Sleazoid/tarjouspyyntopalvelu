@@ -1,0 +1,76 @@
+# -*- coding: utf-8 -*-
+from django.db import models
+import datetime
+from django.utils import timezone
+from django import forms
+from toimialakategoriat.models import Toimiala 
+from django.forms import ModelForm, Textarea
+from django.forms.widgets import *
+from django.core.mail import send_mail, BadHeaderError
+
+MY_DATE_FORMATS = ['%d.%m.%Y',]
+
+
+class HakuModel(models.Model):
+    LAPPI = 'Lappi'
+    AHVENANMAA = 'Ahvenanmaa'
+    ETELAPOHJANMAA = 'EtelaPohjanmaa'
+    ETELASAVO =  'Etela-Savo'
+    KAINUU = 'Kainuu'
+    KANTAHAME = 'KantaHame'
+    KESKIPOHJANMAA ='Keskipohjanmaa'
+    KESKISUOMI ='KeskiSuomi'
+    KYMENLAAKSO ='Kymenlaakso'
+    PIRKANMAA ='Pirkanmaa'
+    POHJANMAA ='Pohjanmaa'
+    POHJOISKARJALA ='PohjoisKarjala'
+    POHJOISPOHJANMAA ='PohjoisPohjanmaa'
+    POHJOISSAVO ='Pohjois-Savo'
+    PAIJATHAME ='PaijatHame'
+    SATAKUNTA = 'Satakunta'
+    UUSIMAA ='Uusimaa'
+    VARSINAISSUOMI ='Varsinais-Suomi'
+
+    LAANIT_CHOICES =(
+	
+	(AHVENANMAA, 'Ahvenanmaa'),
+	(ETELAPOHJANMAA, 'Etelä-pohjanmaa'),
+	(ETELASAVO, u'Etelä-Savo'),
+	(KAINUU, 'Kainuu'),
+	(KANTAHAME, u'Kanta-Häme'),
+	(KESKIPOHJANMAA, 'Keski-Pohjanmaa'),
+	(KESKISUOMI, 'Keski-Suomi'),
+	(KYMENLAAKSO, 'Kymenlaakso'),
+        (LAPPI, 'Lappi'),
+	(PIRKANMAA, 'Pirkanmaa'),
+	(POHJANMAA, 'Pohjanmaa'),
+	(POHJOISKARJALA, 'Pohjois-Karjala'),
+	(POHJOISPOHJANMAA, 'Pohjois-Pohjanmaa'),
+	(POHJOISSAVO, 'Pohjois-Savo'),
+	(PAIJATHAME, 'Päijät-Häme'),
+	(SATAKUNTA, 'Satakunta'),
+	(UUSIMAA, 'Uusimaa'),
+	(VARSINAISSUOMI, 'Varsinais-Suomi'),
+
+    )
+
+   
+    
+    toimiala = models.ForeignKey('toimialakategoriat.Toimiala')
+ 
+
+    alue = models.CharField(max_length=30,
+				choices=LAANIT_CHOICES,
+				default=UUSIMAA)
+   
+    def __unicode__(self):
+	return self.otsikko
+    
+class HakuModelForm(ModelForm):
+   
+   
+    class Meta:
+	model = HakuModel
+	fields = ('toimiala','alue')
+
+

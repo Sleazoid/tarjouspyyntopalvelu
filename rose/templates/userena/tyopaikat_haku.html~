@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div id="tarjous"><h1 style="">Avoimien työpaikkojen haku</h1></br></br>
+<p style="text-align:center;">Valitse toimiala ja alue, jolta työtä etsit </p></br></br>
+<form action="/tyopaikat/tyopaikat_haku" method="post">{% csrf_token %}
+
+{% for field in form %}
+        <div class="fieldWrapper">
+	<p>
+            {{ field.errors }}
+            {{ field.label_tag }} {{ field }}
+	</p>	
+        </div>
+
+    {% endfor %}
+
+    <p><input type="submit" value="Hae" /></p>
+</form>
+</div>
+{% endblock %}

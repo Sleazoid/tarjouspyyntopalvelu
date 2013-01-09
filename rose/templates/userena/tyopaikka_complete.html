@@ -1,0 +1,26 @@
+{% extends 'userena/base_userena.html' %}
+{% load i18n %}
+{% load url from future %}
+{% block title %}{% trans "Avoin työpaikkahakemuksesi on nyt tallennettu järjestelmään" %}{% endblock %}
+{% block content_title %}<h2>{% trans "Avoin työpaikkahakemuksesi on nyt tallennettu järjestelmään" %}.</h2>{% endblock %}
+
+{% block content %}
+	  <ul id="box-nav">
+  {% block profile_navigation_items %}
+	    <li><a href="{% url 'userena_profile_pyynnot' user.username %}"> {% trans "Katso tarjouksia" %}</a></li>
+            <li><a href="{% url 'userena_profile_detail' user.username %}">{% trans "Tarkastele profiilia" %}</a></li>
+            <li><a href="{% url 'userena_profile_edit' user.username %}">{% trans "Muokkaa tietoja" %}</a></li>
+	      <li><a href="{% url 'userena_tyopaikat' user.username %}">{% trans "Avoimet työpaikat" %}</a></li>
+            <li><a href="{% url 'userena_password_change' user.username %}">{% trans "Vaihda salasana" %}</a></li>
+            <li><a href="{% url 'userena_email_change' user.username %}">{% trans "Vaihda email" %}</a></li>
+	    <li><a href="/accounts/signout">Kirjaudu ulos</a></li>
+          {% endblock %}
+  </ul>
+  {% csrf_token %}
+</br>
+<h2 style="text-transform:none">Avoin työpaikka on tallennettu järjestelmään</h2>
+</br>
+<p>{% trans "Työntekijähakemuksesi poistuu automaattisesti järjestelmästä kun määritelty hakuaika päättyy. Mikäli tarvitset muuttaa hakemuksen tietoja, se onnistuu kohdasta 'Avoimet työpaikat'" %}.</p>
+
+</br></br>
+{% endblock %}

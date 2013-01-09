@@ -1,0 +1,36 @@
+
+{% load menu_tags cache %}
+{% load i18n cms_tags menu_tags%}
+{% load cms_tags sekizai_tags %}
+<html>
+  <head>
+      {% render_block "css" %}
+{% addtoblock "css" %}
+<link href="{{STATIC_URL}}css/style.css" rel="stylesheet" type="text/css"/>
+{%endaddtoblock%} 
+  </head>
+  <body>
+      {% cms_toolbar %}
+      {% placeholder base_content %}
+      {% block base_content%}{% endblock %}
+      {% render_block "js" %}
+<div id="header">
+<div id="admin">
+<a href="/admin" target="_blank">Kirjaudu järjestelmään</a> 
+</div></div>
+  <div id="navi">
+					
+             {% show_menu %}
+            </div>
+<div id="content">
+
+
+
+
+      		{% block base_content%}{% endblock %}
+</div>
+ 
+  </body>
+</html>
+
+

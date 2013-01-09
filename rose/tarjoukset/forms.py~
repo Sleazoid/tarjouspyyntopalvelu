@@ -1,0 +1,5 @@
+from tarjoukset.models import TarjousModel
+from django.forms import ModelForm
+class TarjousModelForm(ModelForm):
+    class Meta:
+	model = TarjousModel

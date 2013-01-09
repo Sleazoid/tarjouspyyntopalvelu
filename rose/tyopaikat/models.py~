@@ -1,0 +1,96 @@
+# -*- coding: utf-8 -*-
+from django.db import models
+import datetime
+from django.utils import timezone
+from django import forms
+from toimialakategoriat.models import Toimiala 
+from django.forms import ModelForm, Textarea
+from django.forms.widgets import *
+from django.core.mail import send_mail, BadHeaderError
+from django.contrib.auth.models import User
+MY_DATE_FORMATS = ['%d.%m.%Y',]
+
+
+class TyopaikkaModel(models.Model):
+    LAPPI = 'Lappi'
+    AHVENANMAA = 'Ahvenanmaa'
+    ETELAPOHJANMAA = 'EtelaPohjanmaa'
+    ETELASAVO = 'EtelaSavo'
+    KAINUU = 'Kainuu'
+    KANTAHAME = 'KantaHame'
+    KESKIPOHJANMAA ='Keskipohjanmaa'
+    KESKISUOMI ='KeskiSuomi'
+    KYMENLAAKSO ='Kymenlaakso'
+    PIRKANMAA ='Pirkanmaa'
+    POHJANMAA ='Pohjanmaa'
+    POHJOISKARJALA ='PohjoisKarjala'
+    POHJOISPOHJANMAA ='PohjoisPohjanmaa'
+    POHJOISSAVO ='PohjoisSavo'
+    PAIJATHAME ='PaijatHame'
+    SATAKUNTA = 'Satakunta'
+    UUSIMAA ='Uusimaa'
+    VARSINAISSUOMI ='VarsinaisSuomi'
+
+    LAANIT_CHOICES =(
+	
+	(AHVENANMAA, 'Ahvenanmaa'),
+	(ETELAPOHJANMAA, 'Etelä-pohjanmaa'),
+	(ETELASAVO, u'Etelä-Savo'),
+	(KAINUU, 'Kainuu'),
+	(KANTAHAME, u'Kanta-Häme'),
+	(KESKIPOHJANMAA, 'Keski-Pohjanmaa'),
+	(KESKISUOMI, 'Keski-Suomi'),
+	(KYMENLAAKSO, 'Kymenlaakso'),
+        (LAPPI, 'Lappi'),
+	(PIRKANMAA, 'Pirkanmaa'),
+	(POHJANMAA, 'Pohjanmaa'),
+	(POHJOISKARJALA, 'Pohjois-Karjala'),
+	(POHJOISPOHJANMAA, 'Pohjois-Pohjanmaa'),
+	(POHJOISSAVO, 'Pohjois-Savo'),
+	(PAIJATHAME, 'Päijät-Häme'),
+	(SATAKUNTA, 'Satakunta'),
+	(UUSIMAA, 'Uusimaa'),
+	(VARSINAISSUOMI, 'Varsinais-Suomi'),
+
+    )
+    owner = models.ForeignKey(User,default=User.objects.filter(id__iexact=3).values_list('id'))
+
+  #  user = models.OneToOneField(User,
+#				editable=False,
+ #                               unique=True,
+#				null=True,
+ #                               verbose_name=('user'),
+  #                              related_name='user')
+   # usern = models.CharField(max_length=80)
+    yrityksen_nimi = models.CharField(max_length=200,help_text="Yrityksen nimen oltava sama kuin profiilitiedoissa on määritelty.")
+    etunimi = models.CharField(max_length=200)
+    sukunimi = models.CharField(max_length=200)
+    email = models.EmailField(max_length=200)
+    #puhelinnumero = models.CharField(max_length=200)
+    kaupunki = models.CharField(max_length=80)
+    
+    toimiala = models.ForeignKey('toimialakategoriat.Toimiala')
+    haku_viimeistaan = models.DateField()
+
+    alue = models.CharField(max_length=15,
+				choices=LAANIT_CHOICES,
+				default=UUSIMAA)
+    otsikko = models.CharField(max_length=200)
+    kuvaus = models.TextField(help_text="Kuvauskenttään kuvaus työpaikasta ja tarkemmat tiedot yhteydenotosta ym.")
+    
+    def __unicode__(self):
+	return self.otsikko
+    def get_fields(self):
+        return [(field.yrityksen_nimi, field.kuvaus) for field in TyopaikkaModel._meta.fields]
+
+class TyopaikkaModelForm(ModelForm):
+    haku_viimeistaan = forms.DateField(widget=forms.DateInput(format = '%d.%m.%Y'), 
+                                 input_formats=('%d.%m.%Y',))
+   
+    class Meta:
+	model = TyopaikkaModel
+	fields = ('yrityksen_nimi','etunimi', 'sukunimi', 'email','toimiala', 'haku_viimeistaan','alue','kaupunki','otsikko','kuvaus')
+	widgets = {
+	  'kuvaus' : forms.Textarea(attrs={'rows':15, 'cols':50}),
+	}
+
