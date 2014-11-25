@@ -1,7 +1,7 @@
 Tarjouspyyntopalvelu
 ====================
 
-Unfinished Django project. Some sort of tendering Web service for customers. Finnish language.
+Unfinished Django project. Some sort of 'request for quotation' -Web service for customers. Finnish language.
 
 *
 Sisältää
